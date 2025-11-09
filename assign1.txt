@@ -1,0 +1,80 @@
+chmod +x assign1.sh
+./assign1.sh
+
+
+#!/bin/bash
+FILE="address_book.txt"
+create_address_book(){
+touch "$FILE"
+echo "Address Book created successfully!"
+}
+view_address_book() {
+if [ -s "$FILE" ]; then
+echo "Address Book Contents:"
+cat -n "$FILE"
+else
+echo "Address book is empty."
+fi
+}
+insert_record() {
+echo "Enter Name:"
+read name
+echo "Enter Phone Number:"
+read phone
+echo "Enter Email Address:"
+read email
+echo "$name | $phone | $email" >> "$FILE"
+echo "record inserted successfully"
+}
+delete_record() {
+echo "Enter the Name of the contact to delete:"
+read name
+if grep -q "^$name" "$FILE"; then
+grep -v "^$name" "$FILE" > temp.txt
+mv temp.txt "$FILE"
+echo "Record is deleted."
+else
+echo "Record not found."
+fi
+}
+modify_record() {
+echo "Enter the Name of the contact to modify:"
+read name
+if grep -q "^$name" "$FILE"; then
+grep -v "^$name" "$FILE" > temp.txt
+echo "Enter new Name:"
+read new_name
+echo "Enter new Phone Number:"
+read new_phone
+echo "Enter new Email Address:"
+read new_email
+echo "$new_name | $new_phone | $new_email" >> temp.txt
+
+mv temp.txt "$FILE"
+echo "Record updated."
+else
+echo "Record not found."
+fi
+}
+# Main menu loop
+while true; do
+echo ""
+echo "====== Address Book Menu ======"
+echo "1) Create Address Book"
+echo "2) View Address Book"
+echo "3) Insert a Record"
+echo "4) Delete a Record"
+echo "5) Modify a Record"
+echo "0) Exit"
+echo "Choose an option (0-5):"
+read choice
+case "$choice" in
+1) create_address_book ;;
+2) view_address_book ;;
+3) insert_record ;;
+4) delete_record ;;
+5) modify_record ;;
+0) echo "Exiting program."; break ;;
+*) echo "Invalid option. Please choose 1, 2, 3, 4, 5, or 0." ;;
+esac
+done
