@@ -1,3 +1,7 @@
+chmod +x assign1.sh
+./assign1.sh
+
+
 #!/bin/bash
 FILE="address_book.txt"
 create_address_book(){
@@ -73,4 +77,5 @@ case "$choice" in
 0) echo "Exiting program."; break ;;
 *) echo "Invalid option. Please choose 1, 2, 3, 4, 5, or 0." ;;
 esac
+
 done
